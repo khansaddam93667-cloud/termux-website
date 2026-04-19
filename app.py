@@ -1081,8 +1081,21 @@ def contact():
 
 
 
-# Run Flask in a thread so the cell doesn't block
-
+# Run Flask in a thread so the cell doesn't block# ============== PAGE 9: TEST DB ==============
+@app.route('/test-db')
+def test_db():
+    try:
+        if db is None:
+            return "Database Connection Failed! ❌ Check Render logs."
+        doc_ref = db.collection('system_logs').document('test_connection')
+        doc_ref.set({
+            'status': 'Active',
+            'developer': 'Saddam Khan',
+            'message': 'Firebase Matrix Injected Successfully!'
+        })
+        return "Database Working! ✅ Check your Firebase Console!"
+    except Exception as e:
+        return f"Error pushing data: {e} ❌"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
