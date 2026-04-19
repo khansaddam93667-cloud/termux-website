@@ -3,6 +3,36 @@
 
 from flask import Flask, render_template_string
 
+# ==========================================
+# 🔥 FIREBASE CLOUD DATABASE SETUP 🔥
+# ==========================================
+import os
+import json
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+# Bypass to prevent crash on server reload
+if not firebase_admin._apps:
+    try:
+        # Render Environment se secret key uthana
+        firebase_key_string = os.environ.get('FIREBASE_JSON')
+        if firebase_key_string:
+            firebase_key = json.loads(firebase_key_string)
+            cred = credentials.Certificate(firebase_key)
+            firebase_admin.initialize_app(cred)
+            db = firestore.client()
+            print("🚀 STATUS: Firebase Successfully Connected to Matrix! 🔥")
+        else:
+            print("⚠️ WARNING: FIREBASE_JSON environment variable not found.")
+            db = None
+    except Exception as e:
+        print(f"❌ Firebase Init Error: {e}")
+        db = None
+else:
+    db = firestore.client()
+# ==========================================
+
 app = Flask(__name__)
 
 # ============== CSS STYLES (Mobile Optimized for OPPO F23 5G) ==============
