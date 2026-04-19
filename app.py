@@ -833,11 +833,9 @@ def tips_tricks():
                 <h3>🌐 Ngrok Tunneling for Local Server</h3>
                 <p>Agar aap Termux mein koi web server chala rahe ho (jaise Python Flask/Django), toh Ngrok se use public internet par expose kar sakte ho:</p>
                 <div class="code-block">
-                    <code id="tip3">pkg install ngrok</code>
                 </div>
                 <button class="copy-btn" onclick="copyCode('tip3')">📋 Copy</button>
                 <div class="code-block">
-                    <code id="tip4">ngrok http 8000 # Replace 8000 with your server's port</code>
                 </div>
                 <button class="copy-btn" onclick="copyCode('tip4')">📋 Copy</button>
                 <p>Isse aapko ek public URL milega jisse aap apne local server ko access kar sakte ho.</p>
@@ -1051,14 +1049,13 @@ def contact():
     </html>
     """)
 
-# Start ngrok tunnel
-from pyngrok import ngrok
 
-# Ensure ngrok tunnel is closed before opening a new one
-ngrok.kill()
 
-public_url = ngrok.connect(5001)
 print("🌐 Your Website is LIVE at:", public_url)
 
 # Run Flask in a thread so the cell doesn't block
 threading.Thread(target=lambda: app.run(port=5001, use_reloader=False)).start()
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
