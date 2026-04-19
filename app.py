@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Cell 3: Complete Website Code
 
 from flask import Flask, render_template_string
