@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Cell 3: Complete Website Code
 
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, render_template
 
 # ==========================================
 # 🔥 FIREBASE CLOUD DATABASE SETUP 🔥
