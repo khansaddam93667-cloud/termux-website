@@ -1099,3 +1099,42 @@ def test_db():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
+
+# ==========================================
+# 🔒 ADMIN SECURITY LOCK (ADDED VIA BYPASS)
+# ==========================================
+from flask import session, redirect, url_for, request
+import os
+
+# Fallback secret key setup
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'SaddamMatrixSecret@2026')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        admin_pass = os.environ.get('ADMIN_PASSWORD')
+        
+        if password == admin_pass:
+            session['admin_logged_in'] = True
+            return redirect(url_for('admin_panel'))
+        else:
+            return "<h2 style='color:red; text-align:center;'>❌ Access Denied: Incorrect Password!</h2>", 401
+
+    return '''
+        <body style="background:#0a0f16; color:#00ffcc; font-family:monospace; display:flex; justify:content:center; align-items:center; height:100vh;">
+            <form method="post" style="border: 2px solid #00ffcc; padding: 40px; border-radius: 10px; text-align: center; background:#111926;">
+                <h2>🔒 TERMINAL LOGIN</h2>
+                <input type="password" name="password" placeholder="Enter Admin Key" style="padding: 10px; width: 80%; margin-bottom: 20px; background:#000; color:#0f0; border: 1px solid #0f0;"><br>
+                <button type="submit" style="background:#00ffcc; color:#000; padding: 10px 30px; font-weight: bold; border: none; cursor: pointer;">INITIALIZE</button>
+            </form>
+        </body>
+    '''
+
+@app.route('/admin')
+def admin_panel():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('login'))
+    
+    return "<body style='background:#0a0f16; color:#0f0; text-align:center; margin-top:50px; font-family:monospace;'><h2>🔓 Welcome to the Admin Matrix!</h2><p>Database is secure.</p></body>"
