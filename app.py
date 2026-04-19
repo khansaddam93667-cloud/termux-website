@@ -826,7 +826,7 @@ def tips_tricks():
 
             <div class="tip-box">
                 <h4>💡 Customizing Termux Prompt</h4>
-                <p>Apni `bashrc` file edit karke prompt ko customize kar sakte ho. Example: `PS1='\u@termux:\w\$ '`</p>
+                <p>Apni `bashrc` file edit karke prompt ko customize kar sakte ho. Example: `PS1='\\u@termux:\w\$ '`</p>
             </div>
 
             <div class="card">
