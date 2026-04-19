@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TERMINAL COMMAND CENTER</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body { background-color: #0a0f16; color: #00ffcc; font-family: monospace; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; border: 1px solid #00ffcc; padding: 20px; border-radius: 5px; background: #111926; box-shadow: 0 0 15px #00ffcc22; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; color: #0f0; border: 1px solid #00ffcc; box-sizing: border-box; font-family: monospace; }
+        input::placeholder { color: #00ffcc55; }
+        #editor-container { height: 350px; background: #000; color: #fff; border: 1px solid #00ffcc; margin-bottom: 20px; }
+        button { background: #00ffcc; color: #000; padding: 12px 20px; font-weight: bold; border: none; cursor: pointer; width: 100%; font-size: 16px; font-family: monospace; text-transform: uppercase; }
+        button:hover { background: #fff; box-shadow: 0 0 10px #00ffcc; }
+        .ql-toolbar { background: #00ffcc; border: 1px solid #00ffcc !important; }
+        .ql-container { border: 1px solid #00ffcc !important; }
+        .overrides { margin-top: 40px; border-top: 1px dashed #00ffcc; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">🔓 TERMINAL COMMAND CENTER</h1>
+        
+        <h3 style="color: #fff;">>>> NEW PAYLOAD (BLOG POST)</h3>
+        <form id="matrix-form" method="POST" action="/publish_blog">
+            <input type="text" name="title" placeholder="ENTER POST TITLE..." required>
+            
+            <select name="category">
+                <option value="Termux">Termux / Hacking</option>
+                <option value="Android">Android Modding</option>
+                <option value="Web">Web Development</option>
+                <option value="Other">General Log</option>
+            </select>
+            
+            <div id="editor-container"></div>
+            <input type="hidden" name="content" id="hidden-content">
+            
+            <button type="submit">EXECUTE INJECTION (PUBLISH)</button>
+        </form>
+
+        <div class="overrides">
+            <h3 style="color: #fff;">⚙️ SYSTEM OVERRIDES (Profile)</h3>
+            <p style="color: #ff3333;"><i>[Status: UI Loaded. Database Sync Pending for Overrides.]</i></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            placeholder: 'Type your blog content here... Use the toolbar above for bold, links, and images.',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike', 'code-block'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // Copy Quill HTML to hidden input before submitting form
+        var form = document.getElementById('matrix-form');
+        form.onsubmit = function() {
+            var contentInput = document.querySelector('input[name=content]');
+            contentInput.value = quill.root.innerHTML;
+        };
+    </script>
+</body>
+</html>

@@ -1137,4 +1137,11 @@ def admin_panel():
     if not session.get('admin_logged_in'):
         return redirect(url_for('login'))
     
-    return "<body style='background:#0a0f16; color:#0f0; text-align:center; margin-top:50px; font-family:monospace;'><h2>🔓 Welcome to the Admin Matrix!</h2><p>Database is secure.</p></body>"
+    return render_template('admin.html')
+
+@app.route('/publish_blog', methods=['POST'])
+def publish_blog():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('login'))
+    title = request.form.get('title')
+    return f"<h2 style='color:#0f0; background:#000;'>Matrix Received Post: {title}! Backend save logic pending.</h2>"
