@@ -2,7 +2,6 @@
 # Cell 3: Complete Website Code
 
 from flask import Flask, render_template_string
-import threading
 
 app = Flask(__name__)
 
@@ -1051,10 +1050,8 @@ def contact():
 
 
 
-print("🌐 Your Website is LIVE at:", public_url)
 
 # Run Flask in a thread so the cell doesn't block
-threading.Thread(target=lambda: app.run(port=5001, use_reloader=False)).start()
 
 
 if __name__ == "__main__":
