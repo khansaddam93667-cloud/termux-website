@@ -1180,3 +1180,62 @@ def publish_blog():
             return f"<body style='background:#0a0f16; color:red; text-align:center; margin-top:50px; font-family:monospace;'><h2>❌ FIREBASE ERROR: {e}</h2></body>"
     else:
         return "<body style='background:#0a0f16; color:red; text-align:center; margin-top:50px; font-family:monospace;'><h2>❌ SYSTEM OFFLINE: Database not connected!</h2></body>"
+
+@app.route('/feed')
+def feed():
+    sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="",
+                             shizuku_active="", commands_active="", tips_active="",
+                             packages_active="", contact_active="")
+
+    posts_html = ""
+    if db is not None:
+        try:
+            # Fetch posts from Firebase ordered by newest first
+            posts_ref = db.collection('blog_posts').order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
+            for doc in posts_ref:
+                post = doc.to_dict()
+                title = post.get('title', 'Untitled Payload')
+                category = post.get('category', 'System Log')
+                content = post.get('content', '') # Quill JS saves as HTML
+
+                # HTML template for each post card
+                posts_html += f'''
+                <div class="card" style="border: 1px solid #00ffcc; margin-bottom: 25px; background: rgba(0,0,0,0.4);">
+                    <span style="background:#00ffcc; color:#000; padding:4px 12px; border-radius:15px; font-size:12px; font-weight:bold; text-transform: uppercase;">{category}</span>
+                    <h2 style="color: #fff; margin-top:15px; text-shadow: 0 0 5px #00ffcc;">{title}</h2>
+                    <hr style="border: 0; border-top: 1px dashed #00ffcc55; margin: 15px 0;">
+                    <div style="color: #ddd; font-size: 15px; line-height: 1.6; overflow-wrap: break-word;">
+                        {content}
+                    </div>
+                </div>
+                '''
+        except Exception as e:
+            posts_html = f"<div class='warning-box'><h4>⚠️ Database Error</h4><p>{e}</p></div>"
+
+    if not posts_html:
+        posts_html = "<div class='card'><p style='color:#00ffcc;'>No payloads detected in the Matrix yet. System is awaiting input.</p></div>"
+
+    # Render the final page
+    return render_template_string(f'''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Live Matrix Feed</title>
+        {MOBILE_CSS}
+    </head>
+    <body>
+        {sidebar}
+        <main class="main-content">
+            <h1 class="page-title">📡 LIVE MATRIX FEED</h1>
+            <p style="text-align:center; color:#888; margin-bottom:20px; font-size:12px;">Data synced directly from Firebase Cloud</p>
+            {posts_html}
+        </main>
+        <footer class="footer">
+            Made with ❤️ by Saddam Khan | 2026
+        </footer>
+        {MOBILE_JS}
+    </body>
+    </html>
+    ''')
