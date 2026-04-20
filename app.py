@@ -339,6 +339,7 @@ SIDEBAR = """
         <li><a href="/useful-commands" class="{commands_active}">💻<span>Useful Commands</span></a></li>
         <li><a href="/tips-tricks" class="{tips_active}">🎯<span>Tips & Tricks</span></a></li>
         <li><a href="/packages" class="{packages_active}">📦<span>Best Packages</span></a></li>
+        <li><a href="/feed" class="{feed_active}">📡<span>Live Feed</span></a></li>
         <li><a href="/contact" class="{contact_active}">📞<span>Contact</span></a></li>
     </ul>
 </nav>
@@ -349,7 +350,7 @@ SIDEBAR = """
 def home():
     sidebar = SIDEBAR.format(home_active="active", profile_active="", basics_active="",
                              shizuku_active="", commands_active="", tips_active="",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -406,7 +407,7 @@ def home():
 def profile():
     sidebar = SIDEBAR.format(home_active="", profile_active="active", basics_active="",
                              shizuku_active="", commands_active="", tips_active="",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -567,7 +568,7 @@ def profile():
 def termux_basics():
     sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="active",
                              shizuku_active="", commands_active="", tips_active="",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -649,7 +650,7 @@ def termux_basics():
 def shizuku_setup():
     sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="",
                              shizuku_active="active", commands_active="", tips_active="",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -734,7 +735,7 @@ def shizuku_setup():
 def useful_commands():
     sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="",
                              shizuku_active="", commands_active="active", tips_active="",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -809,7 +810,7 @@ def useful_commands():
 def tips_tricks():
     sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="",
                              shizuku_active="", commands_active="", tips_active="active",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -884,7 +885,7 @@ def tips_tricks():
 def packages():
     sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="",
                              shizuku_active="", commands_active="", tips_active="",
-                             packages_active="active", contact_active="")
+                             packages_active="active", contact_active="", feed_active="")
     return render_template_string(f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -1176,7 +1177,7 @@ def publish_blog():
 def feed():
     sidebar = SIDEBAR.format(home_active="", profile_active="", basics_active="",
                              shizuku_active="", commands_active="", tips_active="",
-                             packages_active="", contact_active="")
+                             packages_active="", contact_active="", feed_active="active")
     
     posts_html = ""
     if db is not None:
