@@ -1139,9 +1139,35 @@ def admin_panel():
     
     return render_template('admin.html')
 
+
+from firebase_admin import firestore
+import datetime
+
+
+from firebase_admin import firestore
+import datetime
+
 @app.route('/publish_blog', methods=['POST'])
 def publish_blog():
     if not session.get('admin_logged_in'):
         return redirect(url_for('login'))
+    
+    # Get data from your Matrix form
     title = request.form.get('title')
-    return f"<h2 style='color:#0f0; background:#000;'>Matrix Received Post: {title}! Backend save logic pending.</h2>"
+    category = request.form.get('category')
+    content = request.form.get('content')
+    
+    if db is not None:
+        try:
+            # Save payload to Firebase Firestore
+            db.collection('blog_posts').add({
+                'title': title,
+                'category': category,
+                'content': content,
+                'timestamp': firestore.SERVER_TIMESTAMP
+            })
+            return f"<body style='background:#0a0f16; color:#0f0; text-align:center; margin-top:50px; font-family:monospace;'><h2>✅ SUCCESS: Post '{title}' securely saved to Firebase!</h2><br><br><a href='/admin' style='color:#00ffcc; text-decoration:none; border:1px solid #00ffcc; padding:10px;'>[ RETURN TO COMMAND CENTER ]</a></body>"
+        except Exception as e:
+            return f"<body style='background:#0a0f16; color:red; text-align:center; margin-top:50px; font-family:monospace;'><h2>❌ FIREBASE ERROR: {e}</h2></body>"
+    else:
+        return "<body style='background:#0a0f16; color:red; text-align:center; margin-top:50px; font-family:monospace;'><h2>❌ SYSTEM OFFLINE: Database not connected!</h2></body>"
