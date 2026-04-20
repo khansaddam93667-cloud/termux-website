@@ -393,6 +393,12 @@ def home():
                 ✅ Tips & Tricks<br>
                 ✅ Advanced Commands</p>
             </div>
+            
+            <div class="card" style="border: 1px dashed #ff0055; background: rgba(255,0,85,0.05); margin-top: 25px;">
+                <h3 style="color: #ff0055;">🎛️ SYSTEM OVERRIDE</h3>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Restricted Access: Authorized Admin Only.</p>
+                <a href="/admin" style="display: block; text-align: center; background: #ff0055; color: #fff; padding: 12px; text-decoration: none; border-radius: 5px; font-weight: bold; font-family: monospace; letter-spacing: 1px;">> ENTER MATRIX _</a>
+            </div>
         </main>
         <footer class="footer">
             Made with ❤️ by Saddam Khan | 2025
